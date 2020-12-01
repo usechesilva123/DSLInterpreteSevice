@@ -1,0 +1,5 @@
+package edu.co.unbosque.compiladores.interprete.exception;
+
+public class ParseException {
+
+}

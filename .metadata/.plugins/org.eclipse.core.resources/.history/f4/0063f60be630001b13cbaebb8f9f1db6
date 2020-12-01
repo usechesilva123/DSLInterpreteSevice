@@ -1,0 +1,77 @@
+package edu.co.unbosque.compiladores.interprete.mdl;
+
+import java.io.Serializable;
+
+public class Token implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7447111572631088895L;
+	private String type;
+	private String text;
+	private int yyline;
+	private int yycolumn;
+	/**
+	 * @param type
+	 * @param text
+	 * @param yyline
+	 * @param yycolumn
+	 */
+	public Token(String type, String text, int yyline, int yycolumn) {
+		super();
+		this.type = type;
+		this.text = text;
+		this.yyline = yyline;
+		this.yycolumn = yycolumn;
+	}
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+	/**
+	 * @return the text
+	 */
+	public String getText() {
+		return text;
+	}
+	/**
+	 * @param text the text to set
+	 */
+	public void setText(String text) {
+		this.text = text;
+	}
+	/**
+	 * @return the yyline
+	 */
+	public int getYyline() {
+		return yyline;
+	}
+	/**
+	 * @param yyline the yyline to set
+	 */
+	public void setYyline(int yyline) {
+		this.yyline = yyline;
+	}
+	/**
+	 * @return the yycolumn
+	 */
+	public int getYycolumn() {
+		return yycolumn;
+	}
+	/**
+	 * @param yycolumn the yycolumn to set
+	 */
+	public void setYycolumn(int yycolumn) {
+		this.yycolumn = yycolumn;
+	}
+
+}

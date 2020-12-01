@@ -1,0 +1,30 @@
+package edu.co.unbosque.compiladores.interprete.model;
+
+import java.io.Serializable;
+import java.util.*;
+
+public class DataResponse implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3176488448166027554L;
+	private int status;
+	private String message;
+	private Date date;
+	private List<Token> tokens;
+	/**
+	 * @param status
+	 * @param message
+	 * @param date
+	 * @param tokens
+	 */
+	public DataResponse(int status, String message, Date date, List<Token> tokens) {
+		super();
+		this.status = status;
+		this.message = message;
+		this.date = date;
+		this.tokens = tokens;
+	}
+
+}

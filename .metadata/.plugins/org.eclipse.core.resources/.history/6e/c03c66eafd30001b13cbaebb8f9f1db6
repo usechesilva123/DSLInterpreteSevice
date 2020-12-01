@@ -1,0 +1,14 @@
+package edu.co.unbosque.compiladores.interprete.model;
+
+public class ProgramInstance {
+	
+    private static ProgramInstance instance;
+	
+	 public static ProgramInstance getInstance() {
+	        if (instance == null) {
+	            instance = new ProgramInstance();
+	        }
+	        return instance;
+	    }
+
+}

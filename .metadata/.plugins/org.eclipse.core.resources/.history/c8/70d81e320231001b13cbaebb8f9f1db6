@@ -1,0 +1,76 @@
+package edu.co.unbosque.compiladores.interprete.controller;
+
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import edu.co.unbosque.compiladores.interprete.exception.InterpretException;
+import edu.co.unbosque.compiladores.interprete.exception.LexException;
+import edu.co.unbosque.compiladores.interprete.exception.ParseException;
+import edu.co.unbosque.compiladores.interprete.lexer.Lexer;
+import edu.co.unbosque.compiladores.interprete.mdl.Program;
+import edu.co.unbosque.compiladores.interprete.model.DataResponse;
+import edu.co.unbosque.compiladores.interprete.model.ProgramInstance;
+import edu.co.unbosque.compiladores.interprete.parser.parser;
+
+@RestController
+public class InterpreterMDLController {
+
+	// SERVICIO PARA ANALISIS LEXICO
+	@RequestMapping(value = "/lexparse", method = RequestMethod.POST)
+	public DataResponse lex(@RequestBody String data) {
+
+		Reader reader = new StringReader(data);
+
+		Lexer scanner = new Lexer(reader);  
+
+		@SuppressWarnings("deprecation")
+		parser parser = new parser(scanner); 
+
+		try {
+			Program programa_axioma = (Program) parser.parse().value;  
+			ProgramInstance.getInstance(programa_axioma).setProgram(programa_axioma);		
+			return new DataResponse(200,"OK",new Date(System.currentTimeMillis()),scanner.tokens);
+		}
+		catch(Error e) {
+			Exception ex = new LexException("Error de lex cerca de < "+ scanner.yytext() + " >");
+			return new DataResponse(503,ex.getMessage(),new Date(System.currentTimeMillis()),scanner.tokens);
+		} catch (Exception e) {
+			e = new ParseException("Error de parsing cerca de < "+ scanner.yytext() + " >");
+			return new DataResponse(503,e.getMessage(),new Date(System.currentTimeMillis()),scanner.tokens);
+		}
+	}
+
+	// SERVICIO PARA INTERPRETE
+	@RequestMapping(value = "/interpret", method = RequestMethod.POST)
+	public DataResponse interpret(@RequestBody List<Double> data) {
+
+		ProgramInstance program = ProgramInstance.getInstance(null);
+
+		try {
+			if(program.getProgram()==null) {
+				throw new InterpretException("No hay modelo que interpretar");
+			}
+			double[] input = new double[data.size()];
+			for (int i = 0; i < input.length; i++) {
+				input[i] = data.get(i);                // java 1.5+ style 
+			}
+			ArrayList<Double> output = program.getProgram().interpret(input); 
+
+			return new DataResponse(200,"OK",new Date(System.currentTimeMillis()),output);
+		}
+		catch (Exception e) {
+			e = new InterpretException("La cantidad de inputs y outputs debe ser igual");
+			return new DataResponse(503,e.getMessage(),new Date(System.currentTimeMillis()),null);
+		}
+	}
+
+
+}

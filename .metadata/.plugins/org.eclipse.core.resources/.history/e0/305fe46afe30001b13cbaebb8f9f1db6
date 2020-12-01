@@ -1,0 +1,35 @@
+package edu.co.unbosque.compiladores.interprete.model;
+
+import edu.co.unbosque.compiladores.interprete.mdl.Program;
+
+public class ProgramInstance {
+	
+    private static ProgramInstance instance;
+    private Program program;
+    
+    private ProgramInstance(Program value) {
+        this.program = value;
+    }
+	
+	 public static ProgramInstance getInstance(Program program) {
+	        if (instance == null) {
+	            instance = new ProgramInstance(program);
+	        }
+	        return instance;
+	    }
+
+	/**
+	 * @return the program
+	 */
+	public static Program getProgram() {
+		return program;
+	}
+
+	/**
+	 * @param program the program to set
+	 */
+	public static void setProgram(Program program) {
+		ProgramInstance.program = program;
+	}
+
+}

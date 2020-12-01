@@ -1,0 +1,137 @@
+package edu.uelbosque.interprete.parser;
+
+import java_cup.runtime.*;
+import edu.uelbosque.interprete.mdl.*;
+/** @author DIEGO A USECHE 
+Bogotá, Cundinamarca
+Noviembre 2020
+PARSER FOR MDL
+*/
+parser code {:
+
+  SymbolTable st = new SymbolTable();
+
+:};
+
+//TERMINALS
+terminal String M, MT, MN , O, OS, OT, ON , I , IS, IT, IN, L , LS, LP, LN;
+terminal String STRING, OB, CB , OP, CP, TYPE, M_TYPE, COMMA, COLON;
+terminal String NUMBER;
+
+//NON TERMINALS
+non terminal Program PROGRAMA;
+non terminal ModelName MODEL_NAME;
+non terminal ModelType MODEL_TYPE;
+non terminal Inputs INPUTS;
+non terminal InputsList INPUTLIST;
+non terminal Input INPUT;
+non terminal InputName INPUT_NAME;
+non terminal InputType INPUT_TYPE;
+non terminal Outputs OUTPUTS;
+non terminal OutputsList OUTPUTLIST;
+non terminal Output OUTPUT;
+non terminal OutputName OUTPUT_NAME;
+non terminal OutputType OUTPUT_TYPE;
+non terminal Model MODEL;
+non terminal Layers LAYERS;
+non terminal LayerList LAYERLIST;
+non terminal Layer LAYER;
+non terminal LayerName LAYER_NAME;
+non terminal LayerParams LAYER_PARAMS;
+non terminal Params PARAMS;
+
+
+	//PRODUCTION RULES
+
+	PROGRAMA ::= MODEL_NAME:mn MODEL_TYPE:mt INPUTS:i OUTPUTS:o MODEL:m
+				 		{: RESULT = new Program(mn,mt,i,o,m); :}
+				 		;
+	
+	MODEL_NAME ::= MN COLON STRING:n
+						{: RESULT = new ModelName(n); :}
+						;
+
+	MODEL_TYPE ::= MT COLON M_TYPE:t
+						{: RESULT = new ModelType(t); :}
+						;
+
+	INPUTS 	::= IS OB INPUTLIST:l CB
+						{: RESULT = new Inputs(l); :}		
+						;
+
+	INPUTLIST ::= INPUTLIST:l INPUT:i
+						{: RESULT = new InputsList(l,i); :}					 
+						|
+						INPUT:i
+						{: RESULT = new InputsList(i); :}
+						;
+
+	INPUT ::= I OB INPUT_NAME:n INPUT_TYPE:t CB
+						{: RESULT = new Input(n,t); :}
+						;
+
+	INPUT_NAME ::= IN COLON STRING:n
+						{: RESULT = new InputName(n); :}
+						;
+
+	INPUT_TYPE ::= IT COLON TYPE:t
+						{: RESULT = new InputType(t); :}
+						;
+
+	OUTPUTS ::= OS OB OUTPUTLIST:l CB
+						{: RESULT = new Outputs(l); :}		
+						;
+
+	OUTPUTLIST ::= OUTPUTLIST:l OUTPUT:o
+						{: RESULT = new OutputsList(l,o); :}					 
+						|
+						OUTPUT:o
+						{: RESULT = new OutputsList(o); :}
+						;
+
+	OUTPUT ::= O OB OUTPUT_NAME:n OUTPUT_TYPE:t CB
+						{: RESULT = new Output(n,t); :}
+						;
+
+	OUTPUT_NAME ::= ON COLON STRING:n
+						{: RESULT = new OutputName(n); :}
+						;
+
+	OUTPUT_TYPE ::= OT COLON TYPE:t
+						{: RESULT = new OutputType(t); :}
+						;
+
+	MODEL ::= M OB LAYERS:l CB
+						{: RESULT = new Model(l); :}
+						;
+
+	LAYERS ::= LS OB LAYERLIST:l CB
+						{: RESULT = new Layers(l); :}
+						;
+
+	LAYERLIST ::= LAYERLIST:ll LAYER:l
+						{: RESULT = new LayerList(ll,l); :}
+						|
+						LAYER:l
+						{: RESULT = new LayerList(l); :}
+						;
+
+	LAYER ::= L OB LAYER_NAME:n LAYER_PARAMS:p CB
+						{: RESULT = new Layer(n,p); :}
+						;
+
+	LAYER_NAME ::= LN COLON STRING:n
+						{: RESULT = new LayerName(n); :}
+						;
+
+	LAYER_PARAMS ::= LP COLON OP PARAMS:p CP
+						{: RESULT = new LayerParams(p); :}
+						;
+
+	PARAMS ::= NUMBER:n COMMA PARAMS:p
+						{: RESULT = new Params(n,p); :}
+						|
+						NUMBER:n
+						{: RESULT = new Params(n); :}
+						;
+

@@ -1,0 +1,13 @@
+package edu.co.unbosque.compiladores.interprete.model;
+
+import java.util.Date;
+import java.util.*;
+
+public class DataResponse implements Serializable{
+	
+	private int status;
+	private String message;
+	private Date date;
+	private List<Tokens> tokens;
+
+}

@@ -1,0 +1,43 @@
+package edu.co.unbosque.compiladores.interprete.controller;
+
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.Date;
+
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import edu.co.unbosque.compiladores.interprete.lexer.Lexer;
+import edu.co.unbosque.compiladores.interprete.mdl.Program;
+import edu.co.unbosque.compiladores.interprete.model.DataResponse;
+import edu.co.unbosque.compiladores.interprete.parser.parser;
+
+@RestController
+public class InterpreterMDLController {
+
+	// SERVICIO PARA ANALISIS LEXICO
+	@RequestMapping(value = "/lexparse", method = RequestMethod.POST)
+	public DataResponse lex(@RequestBody String data) {
+
+		Reader reader = new StringReader(data);
+
+		Lexer scanner = new Lexer(reader);  
+
+		@SuppressWarnings("deprecation")
+		parser parser = new parser(scanner); 
+
+		try {
+			@SuppressWarnings("unused")
+			Program programa_axioma = (Program) parser.parse().value;  
+			return new DataResponse(200,"OK",new Date(System.currentTimeMillis()),scanner.tokens);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			return new DataResponse(503,e.getMessage()+"::"+e.getLocalizedMessage(),new Date(System.currentTimeMillis()),scanner.tokens);
+		}
+	}
+
+
+}

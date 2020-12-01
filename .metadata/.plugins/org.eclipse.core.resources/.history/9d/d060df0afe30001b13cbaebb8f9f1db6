@@ -1,0 +1,27 @@
+package edu.co.unbosque.compiladores.interprete.model;
+
+import edu.co.unbosque.compiladores.interprete.mdl.Program;
+
+public class ProgramInstance {
+	
+    private static ProgramInstance instance;
+    private static Program program;
+    
+    private ProgramInstance(Program value) {
+        // The following code emulates slow initialization.
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+        this.program = value;
+    }
+	
+	 public static ProgramInstance getInstance(Program program) {
+	        if (instance == null) {
+	            instance = new ProgramInstance(program);
+	        }
+	        return instance;
+	    }
+
+}

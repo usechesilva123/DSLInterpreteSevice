@@ -1,0 +1,14 @@
+package edu.co.unbosque.compiladores.interprete.exception;
+
+public class LexException extends Exception{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4100289683685977924L;
+
+	public LexException(String message) {
+		super(message);
+	}
+
+}

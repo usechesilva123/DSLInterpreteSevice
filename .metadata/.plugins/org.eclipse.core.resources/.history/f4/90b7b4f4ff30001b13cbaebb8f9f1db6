@@ -1,0 +1,9 @@
+package edu.co.unbosque.compiladores.interprete.exception;
+
+public class InterpretException extends Exception {
+
+	public LexException(String message) {
+		super(message);
+	}
+
+}

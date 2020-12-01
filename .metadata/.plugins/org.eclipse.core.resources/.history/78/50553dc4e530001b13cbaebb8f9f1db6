@@ -1,0 +1,9 @@
+package edu.co.unbosque.compiladores.interprete.mdl;
+
+public class Token {
+
+	public Token(String type, String text, int yyline, int yycolumn) {
+		// TODO Auto-generated constructor stub
+	}
+
+}

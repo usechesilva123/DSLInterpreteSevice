@@ -1,0 +1,16 @@
+package edu.co.unbosque.compiladores.interprete.mdl;
+
+public class Layers {
+	
+	private LayerList layList;
+
+	public Layers(LayerList l) {
+//		if(!r.equalsIgnoreCase("Layers")) throw new Error("Expecting <\"Layers\">");
+		this.layList = l;
+	}
+
+	public double interpret(double in) {
+		return layList.interpret(in);
+	}
+
+}

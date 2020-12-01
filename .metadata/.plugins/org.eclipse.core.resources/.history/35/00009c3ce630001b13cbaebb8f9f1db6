@@ -1,0 +1,5 @@
+package edu.co.unbosque.compiladores.interprete.model;
+
+public class DataResponse {
+
+}

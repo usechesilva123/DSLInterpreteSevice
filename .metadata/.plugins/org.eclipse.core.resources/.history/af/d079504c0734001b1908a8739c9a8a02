@@ -1,0 +1,15 @@
+package edu.co.unbosque.compiladores.interprete.mdl;
+
+public class ModelName extends Value{
+
+	public ModelName(String n) {
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public double interpret(double in) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}
